@@ -1,4 +1,4 @@
 # oop-chess
 by Henry Bobeck
 
-Chess remake using object-oriented programming!
+Chess remake from scratch using Java 1.8 & Eclipse
