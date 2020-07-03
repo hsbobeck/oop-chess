@@ -45,4 +45,7 @@ public abstract class Piece {
 		this.moveCount = moveCount;
 	}
 	
+	@Override
+	public abstract String toString();
+	
 }

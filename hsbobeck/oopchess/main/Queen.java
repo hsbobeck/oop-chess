@@ -22,4 +22,14 @@ public class Queen extends Piece {
 		return null;
 	}
 
+	public String toString() {
+		if(this.isWhite())
+		{
+			return "wQ";
+		}
+		else
+		{
+			return "bQ";
+		}
+	}
 }

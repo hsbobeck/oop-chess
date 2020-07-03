@@ -21,5 +21,16 @@ public class Pawn extends Piece {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public String toString() {
+		if(this.isWhite())
+		{
+			return "wP";
+		}
+		else
+		{
+			return "bP";
+		}
+	}
 
 }

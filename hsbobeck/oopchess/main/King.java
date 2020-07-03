@@ -22,4 +22,14 @@ public class King extends Piece {
 		return null;
 	}
 
+	public String toString() {
+		if(this.isWhite())
+		{
+			return "w*";
+		}
+		else
+		{
+			return "b*";
+		}
+	}
 }

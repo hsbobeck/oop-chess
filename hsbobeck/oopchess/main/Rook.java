@@ -21,5 +21,16 @@ public class Rook extends Piece {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public String toString() {
+		if(this.isWhite())
+		{
+			return "wR";
+		}
+		else
+		{
+			return "bR";
+		}
+	}
 
 }
