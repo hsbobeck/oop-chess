@@ -20,8 +20,8 @@ import javax.swing.JPanel;
 
 public class ChessWindow extends JFrame {
 
-	private JPanel currentSelectedPanel;
-	private JPanel[] panels;
+	private JPanel currentSelectedTile;
+	private JPanel[] tiles;
 	private Color tileColor1 = new Color(121, 72, 56);
 	private Color tileColor2 = new Color(92, 50, 48);
 	private Color tileColorSelection = new Color(213, 132, 131);
@@ -47,40 +47,40 @@ public class ChessWindow extends JFrame {
         JPanel grid = new JPanel();
         grid.setSize(1080, 1080);
         grid.setLayout(new GridLayout(8, 8));
-        panels = new JPanel[64];
-        PanelListener listener = new PanelListener();
+        tiles = new JPanel[64];
+        TileListener listener = new TileListener();
         
         // fill the grid with appropriately colored panels with mouse listeners attached
         for(int row=0; row<8; row++)
         {
         	for(int col=0; col<8; col++)
         	{
-        		panels[8*row+col] = new JPanel();
+        		tiles[8*row+col] = new JPanel();
         		if(row%2==0)
         		{
         			if(col%2==0)
                 	{
-                		panels[8*row+col].setBackground(tileColor1);
+                		tiles[8*row+col].setBackground(tileColor1);
                 	}
                 	else
                 	{
-                		panels[8*row+col].setBackground(tileColor2);
+                		tiles[8*row+col].setBackground(tileColor2);
                 	}
         		}
         		else
         		{
         			if(col%2==0)
                 	{
-        				panels[8*row+col].setBackground(tileColor2);
+        				tiles[8*row+col].setBackground(tileColor2);
                 	}
                 	else
                 	{
-                		panels[8*row+col].setBackground(tileColor1);
+                		tiles[8*row+col].setBackground(tileColor1);
                 	}
         		}
         		
-        		panels[8*row+col].addMouseListener(listener);
-                grid.add(panels[8*row+col]);
+        		tiles[8*row+col].addMouseListener(listener);
+                grid.add(tiles[8*row+col]);
         	}
         }
         
@@ -99,29 +99,29 @@ public class ChessWindow extends JFrame {
         		{
         			if(col%2==0)
                 	{
-                		panels[8*row+col].setBackground(tileColor1);
+                		tiles[8*row+col].setBackground(tileColor1);
                 	}
                 	else
                 	{
-                		panels[8*row+col].setBackground(tileColor2);
+                		tiles[8*row+col].setBackground(tileColor2);
                 	}
         		}
         		else
         		{
         			if(col%2==0)
                 	{
-        				panels[8*row+col].setBackground(tileColor2);
+        				tiles[8*row+col].setBackground(tileColor2);
                 	}
                 	else
                 	{
-                		panels[8*row+col].setBackground(tileColor1);
+                		tiles[8*row+col].setBackground(tileColor1);
                 	}
         		}
         	}
         }
 	}
 	
-	private class PanelListener implements MouseListener {
+	private class TileListener implements MouseListener {
 
         @Override
         public void mouseClicked(MouseEvent event) {
@@ -134,8 +134,8 @@ public class ChessWindow extends JFrame {
             Object source = event.getSource();
             if(source instanceof JPanel){
             	refreshTileColors();
-            	currentSelectedPanel = (JPanel) source;
-                currentSelectedPanel.setBackground(tileColorSelection);
+            	currentSelectedTile = (JPanel) source;
+                currentSelectedTile.setBackground(tileColorSelection);
             }
         }
 
