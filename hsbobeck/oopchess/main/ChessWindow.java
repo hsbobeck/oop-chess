@@ -6,18 +6,28 @@
  */
 package hsbobeck.oopchess.main;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class ChessWindow extends JFrame {
 
+	private JPanel currentSelectedPanel;
+	private JPanel[] panels;
+	private Color tileColor1 = new Color(121, 72, 56);
+	private Color tileColor2 = new Color(92, 50, 48);
+	private Color tileColorSelection = new Color(213, 132, 131);
+	
+	
+	
 	/**
 	 * 
 	 */
@@ -25,32 +35,90 @@ public class ChessWindow extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("OOP Chess!");
         setVisible(true);
+        
 
         JPanel bgPanel = new JPanel();
+        bgPanel.setPreferredSize(new Dimension(720, 720));
+        bgPanel.setLayout(new BorderLayout());   
         
-        ImageIcon boardImage = new ImageIcon("img\\chessboard.jpg");
-        JLabel boardLabel = new JLabel(boardImage);
         
-        bgPanel.add(boardLabel);
-        
-        setContentPane(bgPanel);
         
         // set up 8x8 grid layout of panels
-        JPanel content = new JPanel(new GridLayout(8, 8));
-        JPanel[] panels = new JPanel[64];
+        JPanel grid = new JPanel();
+        grid.setSize(1080, 1080);
+        grid.setLayout(new GridLayout(8, 8));
+        panels = new JPanel[64];
         PanelListener listener = new PanelListener();
         
-        for(int i=0; i<64; i++)
+        // fill the grid with appropriately colored panels with mouse listeners attached
+        for(int row=0; row<8; row++)
         {
-        	panels[i] = new JPanel();
-            panels[i].setBackground(Color.white);
-            panels[i].addMouseListener(listener);
-            content.add(panels[i]);
+        	for(int col=0; col<8; col++)
+        	{
+        		panels[8*row+col] = new JPanel();
+        		if(row%2==0)
+        		{
+        			if(col%2==0)
+                	{
+                		panels[8*row+col].setBackground(tileColor1);
+                	}
+                	else
+                	{
+                		panels[8*row+col].setBackground(tileColor2);
+                	}
+        		}
+        		else
+        		{
+        			if(col%2==0)
+                	{
+        				panels[8*row+col].setBackground(tileColor2);
+                	}
+                	else
+                	{
+                		panels[8*row+col].setBackground(tileColor1);
+                	}
+        		}
+        		
+        		panels[8*row+col].addMouseListener(listener);
+                grid.add(panels[8*row+col]);
+        	}
         }
         
-        bgPanel.add(content);
+        bgPanel.add(grid);
         
+        setContentPane(bgPanel);
         pack();
+	}
+	
+	private void refreshTileColors() {
+		for(int row=0; row<8; row++)
+        {
+        	for(int col=0; col<8; col++)
+        	{
+        		if(row%2==0)
+        		{
+        			if(col%2==0)
+                	{
+                		panels[8*row+col].setBackground(tileColor1);
+                	}
+                	else
+                	{
+                		panels[8*row+col].setBackground(tileColor2);
+                	}
+        		}
+        		else
+        		{
+        			if(col%2==0)
+                	{
+        				panels[8*row+col].setBackground(tileColor2);
+                	}
+                	else
+                	{
+                		panels[8*row+col].setBackground(tileColor1);
+                	}
+        		}
+        	}
+        }
 	}
 	
 	private class PanelListener implements MouseListener {
@@ -65,8 +133,9 @@ public class ChessWindow extends JFrame {
                      */
             Object source = event.getSource();
             if(source instanceof JPanel){
-                JPanel panelPressed = (JPanel) source;
-                panelPressed.setBackground(Color.blue);
+            	refreshTileColors();
+            	currentSelectedPanel = (JPanel) source;
+                currentSelectedPanel.setBackground(tileColorSelection);
             }
         }
 
