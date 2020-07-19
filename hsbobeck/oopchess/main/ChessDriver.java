@@ -6,14 +6,15 @@
  */
 package hsbobeck.oopchess.main;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class ChessDriver implements ActionListener {
+import javax.swing.JFrame;
+
+public class ChessDriver {
 
 	public Piece[][] board;
 	boolean whiteTurn; // (whose turn it is; 0-black, 1-white)
+	String winner; // to be null until a checkmate, or winner is decided
 	Coordinate currentSelection;
 	ArrayList<Piece> graveyardWhite;
 	ArrayList<Piece> graveyardBlack;
@@ -66,12 +67,7 @@ public class ChessDriver implements ActionListener {
 		this.graveyardBlack = new ArrayList<Piece>();
 	}
 	
-	@Override
-	public void actionPerformed(ActionEvent click)
-	{
-		// TODO Auto-generated method stub
-		
-	}
+
 	
 	@Override
 	public String toString()
@@ -108,10 +104,30 @@ public class ChessDriver implements ActionListener {
 		return result;
 	}
 	
+	/**
+	 * 
+	 */
+	public void run() {
+		
+		while(this.winner == null)
+		{
+			
+		}
+		
+	}
+	
 	public static void main(String[] args)
 	{
-		ChessDriver foobar = new ChessDriver();
-		System.out.println(foobar);
+		ChessDriver driver = new ChessDriver();
+		JFrame window = new ChessWindow();
+		//driver.run();
+		System.out.println(driver);
 	}
+
+
+
+	
+
+	
 	
 }
