@@ -7,31 +7,72 @@
 package hsbobeck.oopchess.main;
 
 public class Coordinate {
-	private int x;
-	private int y;
+	private int row;
+	private int col;
 	
 	/**
-	 * @param x
-	 * @param y
+	 * @param row
+	 * @param col
 	 */
-	public Coordinate(int x, int y) {
-		this.x = x;
-		this.y = y;
+	public Coordinate(int row, int col) {
+		this.row = row;
+		this.col = col;
+	}
+	
+	/**
+	 * returns a coordinate of the given object in the given grid, null if not found
+	 * @param <T>
+	 * @param arr
+	 * @param target
+	 * @return the Coordinate of the target object
+	 */
+	public static <T> Coordinate getCoordinate(T[][] arr, T target) {
+		Coordinate result;
+		for(int row=0; row<arr.length; row++)
+		{
+			for(int col=0; col<arr[0].length; col++)
+			{
+				if(arr[row][col] == target)
+				{
+					result = new Coordinate(row, col);
+					return result;
+				}
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * returns the object at the given coordinate in the given grid
+	 * @param <T>
+	 * @param arr
+	 * @param c
+	 * @return the target object
+	 */
+	public static <T> T objAtCoordinate(T[][] arr, Coordinate c) {
+		return arr[c.getRow()][c.getCol()];
 	}
 
 	/**
-	 * @return the x
+	 * @return the row
 	 */
-	public int getX() {
-		return x;
+	public int getRow() {
+		return row;
 	}
 
 	/**
-	 * @return the y
+	 * @return the column
 	 */
-	public int getY() {
-		return y;
+	public int getCol() {
+		return col;
 	}
+
+	@Override
+	public String toString() {
+		return "[" + row + ", " + col + "]";
+	}
+	
+	
 	
 	
 	

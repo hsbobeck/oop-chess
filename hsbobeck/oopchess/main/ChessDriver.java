@@ -15,7 +15,6 @@ public class ChessDriver {
 	public Piece[][] board;
 	boolean whiteTurn; // (whose turn it is; 0-black, 1-white)
 	String winner; // to be null until a checkmate, or winner is decided
-	Coordinate currentSelection;
 	ArrayList<Piece> graveyardWhite;
 	ArrayList<Piece> graveyardBlack;
 	
@@ -62,12 +61,80 @@ public class ChessDriver {
 		
 		
 		this.whiteTurn = true;
-		this.currentSelection = null;
 		this.graveyardWhite = new ArrayList<Piece>();
 		this.graveyardBlack = new ArrayList<Piece>();
 	}
 	
+	/**
+	 * @return the board
+	 */
+	public Piece[][] getBoard() {
+		return board;
+	}
 
+	/**
+	 * updates board state using knowledge of current and previous selection
+	 *   //this is functional only, graphical side is handled in ChessWindow
+	 * @param currentSelection
+	 * @param prevSelection
+	 */
+	public void updateBoard(Coordinate prevSelection, Coordinate currentSelection) {
+		if(prevSelection == null || currentSelection == null)
+		{
+			return;
+		}
+		else
+		{
+			Piece previous = Coordinate.objAtCoordinate(board, prevSelection);
+			Piece current = Coordinate.objAtCoordinate(board, currentSelection);
+			
+			// if the previously selected piece exists and is the right color 
+			if(previous != null && previous.isWhite() == whiteTurn)
+			{
+				// if the selected move is available
+				if(previous.getMoveOptions(board)[currentSelection.getRow()][currentSelection.getCol()])
+				{
+					// execute the move
+					move(prevSelection, currentSelection);
+					nextTurn();
+				}
+			}
+			else
+			{
+				return;
+			}
+		}
+	}
+	
+	/**
+	 * moves the piece at the start coordinate to the end coordinate with no restrictions
+	 * @param start
+	 * @param end
+	 */
+	public void move(Coordinate start, Coordinate end) {
+		Piece previous = Coordinate.objAtCoordinate(board, start);
+		Piece current = Coordinate.objAtCoordinate(board, end);
+		
+		if(current!=null)
+		{
+			if(current.isWhite())
+			{
+				graveyardWhite.add(current);
+			}
+			else
+			{
+				graveyardBlack.add(current);
+			}
+		}
+		board[end.getRow()][end.getCol()] = previous;
+		board[start.getRow()][start.getCol()] = null;
+		previous.reportMove();
+		System.out.println(this);
+	}
+	
+	public void nextTurn() {
+		this.whiteTurn = !this.whiteTurn;
+	}
 	
 	@Override
 	public String toString()
@@ -119,8 +186,7 @@ public class ChessDriver {
 	public static void main(String[] args)
 	{
 		ChessDriver driver = new ChessDriver();
-		JFrame window = new ChessWindow();
-		//driver.run();
+		JFrame window = new ChessWindow(driver);
 		System.out.println(driver);
 	}
 

@@ -45,6 +45,10 @@ public abstract class Piece {
 		this.moveCount = moveCount;
 	}
 	
+	public void reportMove() {
+		this.moveCount++;
+	}
+	
 	@Override
 	public abstract String toString();
 	

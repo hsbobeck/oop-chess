@@ -18,8 +18,17 @@ public class Pawn extends Piece {
 
 	@Override
 	public boolean[][] getMoveOptions(Piece[][] board) {
-		// TODO Auto-generated method stub
-		return null;
+		boolean[][] result = new boolean[8][8];
+		
+		for(int row=0; row<8; row++)
+		{
+			for(int col=0; col<8; col++)
+			{
+				result[row][col] = true;
+			}
+		}
+		
+		return result;
 	}
 	
 	public String toString() {
