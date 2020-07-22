@@ -18,11 +18,26 @@ public abstract class Piece {
 	}
 	
 	/**
+	 * 
+	 * @author Henry Bobeck
+	 *
+	 */
+	public class PieceNotFoundException extends Exception {
+		public PieceNotFoundException(String errorMessage) {
+	        super(errorMessage);
+	    }
+		public PieceNotFoundException() {
+	        super();
+	    }
+		
+	}
+	
+	/**
 	 * given the current board, which should include this piece, return a grid of possible move options
 	 * @param board the current state of the board
 	 * @return an 8x8 matrix with values of 'true' where a move is available
 	 */
-	public abstract boolean[][] getMoveOptions(Piece[][] board);
+	public abstract boolean[][] getMoveOptions(Piece[][] board) throws PieceNotFoundException;
 
 	/**
 	 * @return if this is a White piece

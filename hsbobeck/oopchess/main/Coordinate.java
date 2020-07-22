@@ -52,6 +52,13 @@ public class Coordinate {
 	public static <T> T objAtCoordinate(T[][] arr, Coordinate c) {
 		return arr[c.getRow()][c.getCol()];
 	}
+	
+	/**
+	 * @return if this coordinate is off the 8x8 grid
+	 */
+	public boolean isOOB() {
+		return !(row>=0 && row<=7 && col>=0 && col<=7);
+	}
 
 	/**
 	 * @return the row

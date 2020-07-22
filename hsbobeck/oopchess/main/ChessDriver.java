@@ -91,13 +91,17 @@ public class ChessDriver {
 			// if the previously selected piece exists and is the right color 
 			if(previous != null && previous.isWhite() == whiteTurn)
 			{
-				// if the selected move is available
-				if(previous.getMoveOptions(board)[currentSelection.getRow()][currentSelection.getCol()])
+				try
 				{
-					// execute the move
-					move(prevSelection, currentSelection);
-					nextTurn();
-				}
+					// if the selected move is available
+					if(previous.getMoveOptions(board)[currentSelection.getRow()][currentSelection.getCol()])
+					{
+						// execute the move
+						move(prevSelection, currentSelection);
+						nextTurn();
+					}
+				} catch(Exception e) {};
+				
 			}
 			else
 			{
