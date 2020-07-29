@@ -100,7 +100,7 @@ public class ChessDriver {
 						move(prevSelection, currentSelection);
 						nextTurn();
 					}
-				} catch(Exception e) {};
+				} catch(Exception e) {System.out.println("move error");};
 				
 			}
 			else
@@ -176,18 +176,6 @@ public class ChessDriver {
 		}
 		
 		return result;
-	}
-	
-	/**
-	 * 
-	 */
-	public void run() {
-		
-		while(this.winner == null)
-		{
-			
-		}
-		
 	}
 	
 	public static void main(String[] args)
