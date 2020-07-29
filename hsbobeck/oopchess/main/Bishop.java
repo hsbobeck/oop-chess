@@ -33,4 +33,9 @@ public class Bishop extends Piece {
 		}
 	}
 
+	@Override
+	public String getPieceType() {
+		return "bishop";
+	}
+
 }

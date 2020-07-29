@@ -136,6 +136,9 @@ public class ChessDriver {
 		System.out.println(this);
 	}
 	
+	/**
+	 * call to go to the next turn
+	 */
 	public void nextTurn() {
 		this.whiteTurn = !this.whiteTurn;
 	}

@@ -32,4 +32,9 @@ public class Queen extends Piece {
 			return "bQ";
 		}
 	}
+
+	@Override
+	public String getPieceType() {
+		return "queen";
+	}
 }

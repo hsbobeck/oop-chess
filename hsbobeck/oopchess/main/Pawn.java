@@ -85,4 +85,9 @@ public class Pawn extends Piece {
 		}
 	}
 
+	@Override
+	public String getPieceType() {
+		return "pawn";
+	}
+
 }

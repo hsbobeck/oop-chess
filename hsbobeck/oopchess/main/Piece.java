@@ -64,6 +64,11 @@ public abstract class Piece {
 		this.moveCount++;
 	}
 	
+	/**
+	 * @return string representing the piece type
+	 */
+	public abstract String getPieceType();
+	
 	@Override
 	public abstract String toString();
 	

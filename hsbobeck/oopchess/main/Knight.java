@@ -33,4 +33,9 @@ public class Knight extends Piece {
 		}
 	}
 
+	@Override
+	public String getPieceType() {
+		return "knight";
+	}
+
 }

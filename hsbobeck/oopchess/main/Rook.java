@@ -33,4 +33,9 @@ public class Rook extends Piece {
 		}
 	}
 
+	@Override
+	public String getPieceType() {
+		return "rook";
+	}
+
 }

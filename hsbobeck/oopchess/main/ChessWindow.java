@@ -27,6 +27,7 @@ public class ChessWindow extends JFrame {
 	private Color tileColor1 = new Color(121, 72, 56);
 	private Color tileColor2 = new Color(92, 50, 48);
 	private Color tileColorSelection = new Color(213, 132, 131);
+	private final Dimension BOARD_DIMENSION = new Dimension(720, 720);
 	private TileListener listener;
 	
 	
@@ -42,7 +43,7 @@ public class ChessWindow extends JFrame {
         setVisible(true);
         
         JPanel bgPanel = new JPanel();
-        bgPanel.setPreferredSize(new Dimension(720, 720));
+        bgPanel.setPreferredSize(BOARD_DIMENSION);
         bgPanel.setLayout(new BorderLayout());   
         
         // set up 8x8 grid layout of tiles
@@ -70,6 +71,7 @@ public class ChessWindow extends JFrame {
         }
         
         refreshTileColors();
+        drawPieces();
         
         bgPanel.add(grid);
         setContentPane(bgPanel);
@@ -80,7 +82,29 @@ public class ChessWindow extends JFrame {
 	 * draws all pieces to their correct spots on the board
 	 */
 	private void drawPieces() {
+		Piece[][] board = this.driver.getBoard();
 		
+		for(int row=0; row<8; row++)
+		{
+			for(int col=0; col<8; col++)
+			{
+				Piece currentPiece = board[row][col];
+				if(currentPiece != null)
+				{
+					switch(currentPiece.getPieceType())
+					{
+						case "pawn": System.out.println("pawn"); break;
+						case "rook": System.out.println("rook"); break;
+						case "knight": System.out.println("knight"); break;
+						case "bishop": System.out.println("bishop"); break;
+						case "queen": System.out.println("queen"); break;
+						case "king": System.out.println("king"); break;
+					
+					}
+				}
+				
+			}
+		}
 	}
 	
 	/**

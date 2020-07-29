@@ -32,4 +32,9 @@ public class King extends Piece {
 			return "b*";
 		}
 	}
+
+	@Override
+	public String getPieceType() {
+		return "king";
+	}
 }
