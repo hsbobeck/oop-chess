@@ -10,12 +10,12 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Rectangle;
-import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JFrame;
+import javax.swing.JLayer;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 public class ChessWindow extends JFrame {
@@ -41,7 +41,7 @@ public class ChessWindow extends JFrame {
         setTitle("OOP Chess!");
         setVisible(true);
         
-        JPanel bgPanel = new JPanel();
+        JLayeredPane bgPanel = new JLayeredPane();
         bgPanel.setPreferredSize(new Dimension(720, 720));
         bgPanel.setLayout(new BorderLayout());   
         
@@ -71,8 +71,17 @@ public class ChessWindow extends JFrame {
         
         refreshTileColors();
         
+        JPanel pieceLayer = new JPanel();
+        pieceLayer.setBackground(Color.BLUE);
+        //pieceLayer.setLayout(new GridLayout(8, 8));
+        
         bgPanel.add(grid);
-        setContentPane(bgPanel);
+        bgPanel.add(pieceLayer);
+        //bgPanel.add(pieceLayer, new Integer(2), 0);
+        
+        add(bgPanel);
+        
+        //setContentPane(this);
         pack();
 	}
 	
