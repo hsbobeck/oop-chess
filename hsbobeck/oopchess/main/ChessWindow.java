@@ -10,12 +10,17 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Rectangle;
-import java.awt.event.ComponentEvent;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class ChessWindow extends JFrame {
@@ -70,41 +75,66 @@ public class ChessWindow extends JFrame {
         	}
         }
         
-        refreshTileColors();
-        drawPieces();
+        
+        
+        
         
         bgPanel.add(grid);
         setContentPane(bgPanel);
         pack();
+        refreshTileColors();
+        drawPieces();
+        validate();
 	}
 	
 	/**
 	 * draws all pieces to their correct spots on the board
 	 */
 	private void drawPieces() {
-		Piece[][] board = this.driver.getBoard();
-		
 		for(int row=0; row<8; row++)
 		{
 			for(int col=0; col<8; col++)
 			{
-				Piece currentPiece = board[row][col];
-				if(currentPiece != null)
-				{
-					switch(currentPiece.getPieceType())
-					{
-						case "pawn": System.out.println("pawn"); break;
-						case "rook": System.out.println("rook"); break;
-						case "knight": System.out.println("knight"); break;
-						case "bishop": System.out.println("bishop"); break;
-						case "queen": System.out.println("queen"); break;
-						case "king": System.out.println("king"); break;
-					
-					}
-				}
-				
+				drawPieces(new Coordinate(row, col));
 			}
 		}
+	}
+	
+	/**
+	 * redraws piece icon only at the single given coordinate
+	 * @param coord
+	 */
+	private void drawPieces(Coordinate coord) {
+		Piece[][] board = this.driver.getBoard();
+		int row = coord.getRow();
+		int col = coord.getCol();
+		
+		tiles[row][col].removeAll();
+		Piece currentPiece = board[row][col];
+		if(currentPiece != null)
+		{
+			String color = currentPiece.getColor();
+			String type = currentPiece.getPieceType();
+			try {
+				final BufferedImage img = ImageIO.read(new File("src\\hsbobeck\\oopchess\\img\\JohnPablok Cburnett Chess set\\PNGs\\With Shadow\\1x\\" + color.substring(0, 1) + "_" + type + "_1x.png"));
+				
+				Image scaledImg = img.getScaledInstance(tiles[row][col].getWidth(), tiles[row][col].getHeight(), Image.SCALE_SMOOTH);
+				tiles[row][col].add(new JLabel(new ImageIcon(scaledImg)));
+			} catch (IOException e) {
+				System.out.println("image file not properly found");
+			}
+			
+		}
+	}
+	
+	/**
+	 * redraws piece icons only at the given coordinates
+	 * @param prev
+	 * @param curr
+	 */
+	private void drawPieces(Coordinate prev, Coordinate curr) {
+		drawPieces(prev);
+		drawPieces(curr);
 	}
 	
 	/**
@@ -146,34 +176,35 @@ public class ChessWindow extends JFrame {
 	private class TileListener implements MouseListener {
 
         @Override
-        public void mouseClicked(MouseEvent event) {
-                    /* source is the object that got clicked
-                     * 
-                     * If the source is actually a JPanel, 
-                     * then will the object be parsed to JPanel 
-                     * since we need the setBackground() method
-                     */
-            Object source = event.getSource();
-            if(source instanceof JPanel){
-            	
-            	refreshTileColors();
-            	prevSelection = currentSelection;
-            	currentSelection = Coordinate.getCoordinate(tiles, (JPanel)source);
-//            	System.out.println("current selection: " + currentSelection);
-            	driver.updateBoard(prevSelection, currentSelection);
-                ((JPanel) source).setBackground(tileColorSelection);
-                
-            }
+        public void mouseClicked(MouseEvent event) {}
+
+        @Override
+        public void mouseEntered(MouseEvent event) {}
+
+        @Override
+        public void mouseExited(MouseEvent event) {}
+
+        @Override
+        public void mousePressed(MouseEvent event) {
+		    Object source = event.getSource();
+		    if(source instanceof JPanel){
+		    	
+		    	refreshTileColors();
+		    	
+		    	prevSelection = currentSelection;
+		    	currentSelection = Coordinate.getCoordinate(tiles, (JPanel)source);
+//		    	System.out.println("current selection: " + currentSelection);
+		    	// only redraw the pieces if the board actually changes
+		    	if(driver.updateBoard(prevSelection, currentSelection)) {
+		    		drawPieces();
+		    	}
+		        ((JPanel) source).setBackground(tileColorSelection);
+		    	
+		    	validate();
+		        
+		        
+		    }
         }
-
-        @Override
-        public void mouseEntered(MouseEvent arg0) {}
-
-        @Override
-        public void mouseExited(MouseEvent arg0) {}
-
-        @Override
-        public void mousePressed(MouseEvent arg0) {}
 
         @Override
         public void mouseReleased(MouseEvent arg0) {}

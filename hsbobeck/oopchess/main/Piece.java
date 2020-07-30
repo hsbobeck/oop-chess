@@ -45,6 +45,13 @@ public abstract class Piece {
 	public boolean isWhite() {
 		return white;
 	}
+	
+	/**
+	 * @return String representation of the piece's color
+	 */
+	public String getColor() {
+		return this.isWhite() ? "white" : "black";
+	}
 
 	/**
 	 * @return the moveCount
