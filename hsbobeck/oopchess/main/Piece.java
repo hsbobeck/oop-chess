@@ -6,6 +6,8 @@
  */
 package hsbobeck.oopchess.main;
 
+import hsbobeck.oopchess.exceptions.PieceNotFoundException;
+
 public abstract class Piece {
 	private boolean white; // (the team: 0-black, 1-white)
 	private int moveCount; // keeps track of how many times this piece has been moved
@@ -15,21 +17,6 @@ public abstract class Piece {
 	 */
 	public Piece(boolean white) {
 		this.white = white;
-	}
-	
-	/**
-	 * 
-	 * @author Henry Bobeck
-	 *
-	 */
-	public class PieceNotFoundException extends Exception {
-		public PieceNotFoundException(String errorMessage) {
-	        super(errorMessage);
-	    }
-		public PieceNotFoundException() {
-	        super();
-	    }
-		
 	}
 	
 	/**

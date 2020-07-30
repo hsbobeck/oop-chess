@@ -10,6 +10,8 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+import hsbobeck.oopchess.exceptions.PieceNotFoundException;
+
 public class ChessDriver {
 
 	public Piece[][] board;
@@ -109,7 +111,11 @@ public class ChessDriver {
 						nextTurn();
 						return true;
 					}
-				} catch(Exception e) {System.out.println("move error");};
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+				
+				
 				
 			}
 			return false;

@@ -196,7 +196,7 @@ public class ChessWindow extends JFrame {
 //		    	System.out.println("current selection: " + currentSelection);
 		    	// only redraw the pieces if the board actually changes
 		    	if(driver.updateBoard(prevSelection, currentSelection)) {
-		    		drawPieces();
+		    		drawPieces(prevSelection, currentSelection);
 		    	}
 		        ((JPanel) source).setBackground(tileColorSelection);
 		    	
