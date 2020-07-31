@@ -232,8 +232,15 @@ public class ChessWindow extends JFrame {
 		    	((JPanel) source).setBackground(tileColorSelection);
 		    	
 		    	// only redraw the pieces where the board actually changes
-		    	if(driver.updateBoard(prevSelection, currentSelection)) {
+		    	if(driver.updateBoard(prevSelection, currentSelection))
+		    	{
 		    		drawPieces(prevSelection, currentSelection);
+		    		currentSelection=null;
+		    		prevSelection=null;
+		    		refreshTileColors();
+		    	}
+		    	else if(currentSelection.equals(prevSelection)) //de-select by clicking again on the same tile
+		    	{
 		    		currentSelection=null;
 		    		prevSelection=null;
 		    		refreshTileColors();

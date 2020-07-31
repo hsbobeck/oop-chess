@@ -79,6 +79,18 @@ public class Coordinate {
 		return "[" + row + ", " + col + "]";
 	}
 	
+	@Override
+	public boolean equals(Object o) {
+		if(o instanceof Coordinate)
+		{
+			return this.row==((Coordinate)o).getRow() && this.col==((Coordinate)o).getCol();
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 	
 	
 	

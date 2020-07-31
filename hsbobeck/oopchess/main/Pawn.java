@@ -55,8 +55,13 @@ public class Pawn extends Piece {
 			}
 		}
 		
+		
 		for(Coordinate c : moveSet)
 		{
+			if(moveSet.length >1)
+			{
+				if(Coordinate.objAtCoordinate(board, moveSet[0])!=null) break;
+			}
 			if(c.isOOB()) continue;
 			Piece target = Coordinate.objAtCoordinate(board, c);
 			if(target==null)
