@@ -18,10 +18,14 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+
+import hsbobeck.oopchess.exceptions.PieceNotFoundException;
 
 public class ChessWindow extends JFrame {
 
@@ -32,6 +36,8 @@ public class ChessWindow extends JFrame {
 	private Color tileColor1 = new Color(121, 72, 56);
 	private Color tileColor2 = new Color(92, 50, 48);
 	private Color tileColorSelection = new Color(213, 132, 131);
+	private Color moveIndicatorColor = new Color(224, 206, 153);
+	private Border moveIndicatorBorder = BorderFactory.createLineBorder(moveIndicatorColor, 3);
 	private final Dimension BOARD_DIMENSION = new Dimension(720, 720);
 	private TileListener listener;
 	
@@ -145,6 +151,7 @@ public class ChessWindow extends JFrame {
         {
         	for(int col=0; col<8; col++)
         	{
+        		tiles[row][col].setBorder(null);
         		if(row%2==0)
         		{
         			if(col%2==0)
@@ -171,6 +178,34 @@ public class ChessWindow extends JFrame {
         }
 	}
 	
+	private void drawMoveOptionIndicators() {
+		if(currentSelection==null) return;
+		Piece currentPiece = driver.getBoard()[currentSelection.getRow()][currentSelection.getCol()];
+		boolean[][] moveOptions;
+		if(currentPiece != null && currentPiece.isWhite() == driver.whiteTurn)
+		{
+			try {
+				
+				moveOptions = currentPiece.getMoveOptions(driver.getBoard());
+				for(int row=0; row<8; row++)
+				{
+					for(int col=0; col<8; col++)
+					{
+						if(moveOptions[row][col])
+						{
+							tiles[row][col].setBorder(moveIndicatorBorder);
+						}
+					}
+				}
+				
+			} catch (PieceNotFoundException e) {
+				e.printStackTrace();
+				System.out.println("unable to draw move option indicators");
+			}
+			
+		}
+	}
+	
 	
 	
 	private class TileListener implements MouseListener {
@@ -193,12 +228,18 @@ public class ChessWindow extends JFrame {
 		    	
 		    	prevSelection = currentSelection;
 		    	currentSelection = Coordinate.getCoordinate(tiles, (JPanel)source);
-//		    	System.out.println("current selection: " + currentSelection);
-		    	// only redraw the pieces if the board actually changes
+		    	
+		    	((JPanel) source).setBackground(tileColorSelection);
+		    	
+		    	// only redraw the pieces where the board actually changes
 		    	if(driver.updateBoard(prevSelection, currentSelection)) {
 		    		drawPieces(prevSelection, currentSelection);
+		    		currentSelection=null;
+		    		prevSelection=null;
+		    		refreshTileColors();
 		    	}
-		        ((JPanel) source).setBackground(tileColorSelection);
+		    	
+		        drawMoveOptionIndicators();
 		    	
 		    	validate();
 		        
