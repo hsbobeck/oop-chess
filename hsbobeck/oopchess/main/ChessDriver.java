@@ -16,6 +16,8 @@ public class ChessDriver {
 
 	public Piece[][] board;
 	boolean whiteTurn; // (whose turn it is; 0-black, 1-white)
+	boolean whiteCheck;
+	boolean blackCheck;
 	String winner; // to be null until a checkmate, or winner is decided
 	ArrayList<Piece> graveyardWhite;
 	ArrayList<Piece> graveyardBlack;
@@ -79,6 +81,71 @@ public class ChessDriver {
 		startingBoard[7][7] = new Rook(true);
 		
 		return startingBoard;
+	}
+	
+	/**
+	 * returns the first coordinate of the given matching piece
+	 * @param type a valid piece type, all lowercase (i.e., "queen" "pawn")
+	 * @param color (0-black, 1-white)
+	 * @return the coordinate of the first matching piece
+	 */
+	private Coordinate findPiece(String type, boolean color) {
+		for(int row=0; row<8; row++)
+		{
+			for(int col=0; col<8; col++)
+			{
+				Piece currentPiece = board[row][col];
+				if(currentPiece.getPieceType().equals(type) && currentPiece.isWhite()==color)
+				{
+					return new Coordinate(row, col);
+				}
+			}
+		}
+		return null;
+	}
+	
+	private Coordinate findWhiteKing() {
+		return findPiece("king", true);
+	}
+	
+	private Coordinate findBlackKing() {
+		return findPiece("king", false);
+	}
+	
+	public void lookForCheck() throws PieceNotFoundException {
+		boolean whiteInCheck;
+		boolean blackInCheck;
+		Coordinate whiteKingCoord;
+		Coordinate blackKingCoord;
+		
+		try
+		{
+			whiteKingCoord = findWhiteKing();
+			blackKingCoord = findBlackKing();
+		} catch(Exception e) {
+			throw new PieceNotFoundException();
+		}
+		
+		for(int row=0; row<8; row++) {
+			for(int col=0; col<8; col++) {
+				Piece piece = Coordinate.objAtCoordinate(board, new Coordinate(row, col));
+				if(piece != null)
+				{
+					try {
+						boolean[][] moveOptions = piece.getMoveOptions(board);
+						whiteInCheck = moveOptions[whiteKingCoord.getRow()][whiteKingCoord.getCol()];
+						if(whiteInCheck) System.out.println("white in check");
+						blackInCheck = moveOptions[blackKingCoord.getRow()][blackKingCoord.getCol()];
+						if(blackInCheck) System.out.println("black in check");
+						
+						
+					} catch (PieceNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}
 	}
 
 	/**
